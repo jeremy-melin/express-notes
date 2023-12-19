@@ -4,12 +4,14 @@ import path from "path";
 const dataDir = "data";
 
 export default class MapStore {
-    constructor(filename) {
+
+    filePath: string;
+
+    constructor(filename: string) {
         this.filePath = path.resolve(dataDir, filename);
     }
 
-    async save(data) {
-        console.log(`${this.filePath}`);
+    async save(data: any) {
         const serializedData = JSON.stringify(Array.from(data.entries()));
         await writeFile(this.filePath, serializedData);
     }
