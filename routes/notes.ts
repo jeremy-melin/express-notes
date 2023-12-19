@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import * as Note from "../model/notes";
+import { collections } from "../server/services/database.service";
 
 export function list(req: Request, resp: Response) {
     let { sort } = req.query;
@@ -13,6 +14,15 @@ export function list(req: Request, resp: Response) {
     resp.json({ notes });
 }
 
+// MONGO
+export async function listAll(req: Request, resp: Response) {
+    const notes = (await collections?.notes?.find({})
+                    .limit(50)    
+                    .toArray()
+                ) as any[];
+    resp.status(200).json({notes});
+}
+
 export async function create(req: Request, resp: Response) {
     const { title, body } = req.body;
     if (!title || !body) {
@@ -21,6 +31,19 @@ export async function create(req: Request, resp: Response) {
 
     const note = await Note.createNote(title, body);
     console.log({note});
+
+    resp.send("OK")
+}
+
+//MONGO
+export async function createOne(req: Request, resp: Response) {
+    const { title, body } = req.body;
+    if (!title || !body) {
+        return resp.status(400).send("invalid post format");
+    }
+
+    const note = await Note.createNote(title, body);
+    await collections?.notes?.insertOne(note);
 
     resp.send("OK")
 }

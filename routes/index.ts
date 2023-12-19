@@ -8,7 +8,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/notes', notes.list);
+router.get('/notes/all', notes.listAll); // via mongo
+
 router.post('/notes', notes.create);
+router.post('/notes/create', notes.createOne); // via mongo
+
 router.get('/notes/:id', notes.read);
 router.post('/notes/:id', notes.update);
 router.delete('/notes/:id', notes.deleteNote);

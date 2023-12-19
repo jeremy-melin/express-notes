@@ -6,7 +6,6 @@ const NOTES = new Map();
 const store = new MapStore("notes.json");
 
 store.read().then(notes => {
-    console.log("notes", notes);
     for (let [id, note] of notes) {
         NOTES.set(id, note);
     }
