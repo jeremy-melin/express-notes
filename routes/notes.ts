@@ -28,14 +28,14 @@ export async function create(req: Request, resp: Response) {
     }
 
     const note = await Note.createNote(title, body);
-    await collections?.notes?.insertOne(note);
+    await collections.notes?.insertOne(note);
 
     resp.send("OK")
 }
 
 export async function read(req: Request, resp: Response) {
     const { id } = req.params;
-    const note = await collections?.notes?.find({id});
+    const note = await collections.notes?.findOne({id});
     resp.json({ note });
 }
 
