@@ -1,18 +1,7 @@
 import { v4 as uuid } from "uuid";
-import MapStore from "../lib/mapStore";
 import { Note } from "../interfaces/note";
 
 const NOTES = new Map();
-const store = new MapStore("notes.json");
-
-store.read().then(notes => {
-    console.log("notes", notes);
-    for (let [id, note] of notes) {
-        NOTES.set(id, note);
-    }
-}).catch(err => {
-    console.error(err);
-})
 
 export function list(sort = 'DESC') {
     const notes = Array.from(NOTES.values());
@@ -37,7 +26,6 @@ export async function createNote(title: string, body: string) {
     }
 
     NOTES.set(id, note);
-    await store.save(NOTES);
     return { ...note }; 
 }
 
@@ -47,8 +35,6 @@ export async function updateNote(id: string, title: string, body: string) {
     note.title = title ?? note.title;
     note.body = body ?? note.body;
     note.lastEdited = Date.now();
-
-    await store.save(NOTES);
 
     return { ...note };
 }
@@ -61,6 +47,5 @@ export function getNote(id: string) {
 
 export async function deleteNote(id: string) {
     const success = NOTES.delete(id);
-    await store.save(NOTES);
     return success;
 }

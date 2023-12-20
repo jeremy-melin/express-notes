@@ -1,16 +1,24 @@
 import { Request, Response } from "express";
 import * as Note from "../model/notes";
+import { collections } from "../server/services/database.service";
 
-export function list(req: Request, resp: Response) {
+export async function list(req: Request, resp: Response) {
     let { sort } = req.query;
+
     sort = sort && typeof sort === 'string' ? sort.toUpperCase() : "DESC";
 
     if (sort !== "ASC" && sort !== "DESC") {
         return resp.status(400).send("invalid sort format");
     }
 
-    const notes = Note.list();
-    resp.json({ notes });
+    const order = sort === "DESC" ? -1 : 1; 
+
+    const notes = (await collections?.notes?.find({})
+                    .sort({ updatedAt: order })
+                    .limit(50)
+                    .toArray()
+                ) as any[];
+    resp.status(200).json({notes});
 }
 
 export async function create(req: Request, resp: Response) {
@@ -20,14 +28,14 @@ export async function create(req: Request, resp: Response) {
     }
 
     const note = await Note.createNote(title, body);
-    console.log({note});
+    await collections.notes?.insertOne(note);
 
     resp.send("OK")
 }
 
-export function read(req: Request, resp: Response) {
+export async function read(req: Request, resp: Response) {
     const { id } = req.params;
-    const note = Note.getNote(id);
+    const note = await collections.notes?.findOne({id});
     resp.json({ note });
 }
 
@@ -37,15 +45,14 @@ export async function update(req: Request, resp: Response) {
     if (!title && !body) {
         return resp.status(400).send("invalid post format");
     }
-    console.log(`update ${id} with ${title} & ${body}`);
-    const note = await Note.updateNote(id, title, body);
+
+    await collections.notes?.updateOne({ id: id}, {title, body});
     resp.send("OK")
 }
 
 export async function deleteNote(req: Request, resp: Response) {
     const { id } = req.params;
-    console.log(`deleting ${id}`);
+    await collections.notes?.deleteOne({ id: id});
 
-    const note = await Note.deleteNote(id);
     resp.send("OK")
 }
