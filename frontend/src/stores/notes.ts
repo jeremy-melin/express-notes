@@ -3,11 +3,7 @@ import { mande } from 'mande';
 
 export const BASE_URL = 'http://localhost:3000';
 
-const api = mande(BASE_URL + '/notes', {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-    }});
+const api = mande(BASE_URL + '/notes');
 
 export const useNotesStore = defineStore('notes', {
     state: () => ({ notes: [] }),

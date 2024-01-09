@@ -6,18 +6,11 @@ import routes from "../routes/index";
 const app: Express = express();
 const port = 3000;
 
-const allowCrossDomain = (req: Request, res: Response, next: NextFunction) => {
-    res.header(`Access-Control-Allow-Origin`, `https://localhost:5173`);
-    res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
-    res.header(`Access-Control-Allow-Headers`, `Content-Type`);
-    next();
-  };
 
 app.use(morgan("dev"));
 app.use(express.urlencoded({extended: true}));
 
 connectToDatabase().then(() => {
-    app.use(allowCrossDomain);
 
     app.use(routes);
 

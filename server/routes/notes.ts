@@ -18,6 +18,7 @@ export async function list(req: Request, resp: Response) {
                     .limit(50)
                     .toArray()
                 ) as any[];
+    
     resp.status(200).json({notes});
 }
 

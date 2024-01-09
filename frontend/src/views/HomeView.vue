@@ -4,11 +4,15 @@ import TheWelcome from '../components/TheWelcome.vue';
 
 const store = useNotesStore();
 
-store.retrieveNotes();
+function getNotes() {
+  store.retrieveNotes();
+}
+
 </script>
 
 <template>
   <main>
     <TheWelcome />
+    <button @click="getNotes">GET NOTES</button>
   </main>
 </template>
