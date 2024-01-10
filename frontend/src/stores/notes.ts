@@ -11,10 +11,31 @@ export const useNotesStore = defineStore('notes', {
       getNotes: (state) => state.notes,
     },
     actions: {
-      async retrieveNotes() {
+      async retrieve() {
         try {
             const notes = await api.get();
             this.notes = notes;
+        } catch(e) {
+            console.error("GET error");
+        }
+      },
+      async update(id: string) {
+        try {
+            await api.patch({ id });
+        } catch(e) {
+            console.error("GET error");
+        }
+      },
+      async add(note: any) {
+        try {
+            await api.post(note);
+        } catch(e) {
+            console.error("GET error");
+        }
+      },
+      async delete(id: string) {
+        try {
+            await api.delete(id);
         } catch(e) {
             console.error("GET error");
         }
