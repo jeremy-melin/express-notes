@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia';
 import { mande } from 'mande';
+import type { Note } from '@/interfaces/note';
 
 export const BASE_URL = 'http://localhost:3000';
 
 const api = mande(BASE_URL + '/notes');
 
 export const useNotesStore = defineStore('notes', {
-    state: () => ({ notes: [] }),
+    state: () => ({ notes: [] as Array<Note> | unknown}),
     getters: {
       getNotes: (state) => state.notes,
     },
