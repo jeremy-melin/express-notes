@@ -13,7 +13,8 @@
         </v-list>
 
         <NoteForm 
-            v-if="currentNote.title" 
+            v-if="currentNote.title"
+            @update:submit="patchNote"
             v-model:title="currentNote.title" 
             v-model:body="currentNote.body" 
             class="my-4">
@@ -28,12 +29,18 @@ import { defineComponent } from 'vue';
 import NoteForm from '@/components/NoteForm.vue';
 
 export default defineComponent({
+    components: { NoteForm },
+    emits: ['patchNote', 'getNotes'],
     props: {
         notes: [] as PropType<Array<Note>>
     },
     data() {
         return { currentNote: {id: '', title: '', body: '', lastEdited: 0} };
     },
-    components: { NoteForm }
+    methods: {
+        patchNote() {
+            this.$emit('patchNote', {id: this.currentNote.id, title: this.currentNote.title, body: this.currentNote.body});
+        }
+    }
 })
 </script>

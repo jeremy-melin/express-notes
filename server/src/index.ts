@@ -12,6 +12,8 @@ app.use(express.urlencoded({extended: true}));
 
 connectToDatabase().then(() => {
 
+    app.use(express.json())
+
     app.use(routes);
 
     app.get("/error", (req: Request, resp: Response) => {
