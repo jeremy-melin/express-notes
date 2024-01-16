@@ -20,9 +20,9 @@ export const useNotesStore = defineStore('notes', {
             console.error("GET error");
         }
       },
-      async update(id: string) {
+      async update(params: any) {
         try {
-            await api.patch({ id });
+            await api.post('/' + params.id, {title: params.title, body: params.body});
         } catch(e) {
             console.error("GET error");
         }

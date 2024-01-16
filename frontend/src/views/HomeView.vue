@@ -1,6 +1,6 @@
 <template>
   <main>
-    <NoteList @get-notes="getNotes" :notes="store.notes?.notes"></NoteList>
+    <NoteList @get-notes="getNotes" @patch-note="patchNote" :notes="store.notes?.notes"></NoteList>
   </main>
 </template>
 
@@ -12,6 +12,10 @@ const store = useNotesStore();
 
 function getNotes() {
   store.retrieve();
+}
+
+function patchNote(params: any) {
+  store.update(params);
 }
 
 </script>

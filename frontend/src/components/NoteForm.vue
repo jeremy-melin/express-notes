@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-sheet>
-            <v-form @submit.prevent>
+            <v-form @submit.prevent="submit">
                 <v-text-field
                     :value="title"
                     @input="$emit('update:title', $event.target.value)"
@@ -22,14 +22,14 @@
 import { defineComponent, type PropType } from 'vue';
 
 export default defineComponent({
-    emits: ['update:title', 'update:body'],
+    emits: ['update:title', 'update:body', 'update:submit'],
     props: {
         title: String,
         body: String
     },
     methods: {
         async submit(event: any) {
-            console.log("event", event);
+            this.$emit('update:submit');
         }
     }
 })

@@ -47,7 +47,7 @@ export async function update(req: Request, resp: Response) {
         return resp.status(400).send("invalid post format");
     }
 
-    await collections.notes?.updateOne({ id: id}, {title, body});
+    await collections.notes?.updateOne({id}, {$set: {title, body}});
     resp.send("OK")
 }
 
