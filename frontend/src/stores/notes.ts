@@ -27,7 +27,7 @@ export const useNotesStore = defineStore('notes', {
             console.error("GET error");
         }
       },
-      async add(note: any) {
+      async add(note: {title: string, content: string}) {
         try {
             await api.post(note);
         } catch(e) {

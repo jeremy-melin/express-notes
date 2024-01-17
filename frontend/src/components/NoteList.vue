@@ -1,6 +1,12 @@
 <template>
     <div>
-        <v-btn @click="$emit('getNotes')" class="my-4">Get notes</v-btn>
+        <div class="my-4 d-flex justify-space-between">
+            <div>
+                <v-btn @click="$emit('getNotes')">Get notes</v-btn>
+                <v-btn @click="$emit('newNote')" class="ml-4">New note</v-btn>
+            </div>
+            <v-btn @click="$emit('deleteNote', currentNote.id)" :disabled="!currentNote.id" class="ml-4">Delete note</v-btn>
+        </div>
 
         <v-list lines="one" v-show="notes">
             <v-list-item
@@ -15,8 +21,8 @@
         <NoteForm 
             v-if="currentNote.title"
             @update:submit="patchNote"
-            v-model:title="currentNote.title" 
-            v-model:body="currentNote.body" 
+            v-model:title="model.title" 
+            v-model:body="model.body" 
             class="my-4">
         </NoteForm>
     </div>
@@ -30,12 +36,15 @@ import NoteForm from '@/components/NoteForm.vue';
 
 export default defineComponent({
     components: { NoteForm },
-    emits: ['patchNote', 'getNotes'],
+    emits: ['patchNote', 'getNotes', 'newNote', 'deleteNote'],
     props: {
         notes: [] as PropType<Array<Note>>
     },
     data() {
-        return { currentNote: {id: '', title: '', body: '', lastEdited: 0} };
+        return {
+            currentNote: {id: '', title: '', body: '', lastEdited: 0},
+            model: {title: '', body: ''}
+        };
     },
     methods: {
         patchNote() {

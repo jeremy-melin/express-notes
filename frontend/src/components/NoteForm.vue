@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
     emits: ['update:title', 'update:body', 'update:submit'],
@@ -28,8 +28,8 @@ export default defineComponent({
         body: String
     },
     methods: {
-        async submit(event: any) {
-            this.$emit('update:submit');
+        submit() {
+            this.$emit('update:submit', {title: this.title, content: this.body});
         }
     }
 })
