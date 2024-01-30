@@ -23,12 +23,12 @@ export async function list(req: Request, resp: Response) {
 }
 
 export async function create(req: Request, resp: Response) {
-    const { title, body } = req.body;
-    if (!title || !body) {
+    const { title, content } = req.body;
+    if (!title || !content) {
         return resp.status(400).send("invalid post format");
     }
 
-    const note = await Note.createNote(title, body);
+    const note = await Note.createNote(title, content);
     await collections.notes?.insertOne(note);
 
     resp.send("OK")
