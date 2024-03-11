@@ -1,9 +1,17 @@
 FROM node:20.11-bullseye-slim
 
+RUN npm install -g http-server
+
 WORKDIR /frontend
-COPY . .
+
+COPY package*.json ./
+
 RUN npm install
 
-EXPOSE 5173
+COPY . .
 
-CMD [ "npm", "dev" ]
+RUN npm run build 
+
+EXPOSE 8080
+
+CMD [ "http-server", "dist" ]
