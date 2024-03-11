@@ -1,9 +1,15 @@
 FROM node:20.11-bullseye-slim
 
 WORKDIR /server
-COPY . .
+
+COPY package*.json ./
+
 RUN npm install
 
-EXPOSE 3000
+COPY . .
 
-CMD [ "npm", "start" ]
+RUN npm run build 
+
+EXPOSE 8081
+
+CMD [ "node", "dist/src/index.js" ]
