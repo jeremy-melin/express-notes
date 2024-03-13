@@ -2,12 +2,12 @@ import { defineStore } from 'pinia';
 import { mande } from 'mande';
 import type { Note } from '@/interfaces/note';
 
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const api = mande(BASE_URL + '/notes');
 
 export const useNotesStore = defineStore('notes', {
-    state: () => ({ notes: [] as Array<Note> | unknown}),
+    state: () => ({ notes: [] as Array<Note> | unknown}), 
     getters: {
       getNotes: (state) => state.notes,
     },

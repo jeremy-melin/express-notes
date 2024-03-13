@@ -4,8 +4,7 @@ import { connectToDatabase } from "../services/database.service";
 import routes from "../routes/index";
 
 const app: Express = express();
-const port = 3000;
-
+const port = process.env.PORT || 3000;
 
 app.use(morgan("dev"));
 app.use(express.urlencoded({extended: true}));

@@ -1,6 +1,6 @@
 <template>
   <main>
-    <NoteList @get-notes="getNotes" @patch-note="patchNote" @new-note="showForm = true" @deleteNote="deleteNote" :notes="store.notes?.notes"></NoteList>
+    <NoteList @get-notes="getNotes" @patch-note="patchNote" @new-note="showForm = true" @deleteNote="deleteNote" :notes="(store.notes as any)?.notes"></NoteList>
     <NoteForm v-if="showForm" @update:submit="newNote" v-model:title="model.title" v-model:body="model.body"></NoteForm>
   </main>
 </template>
