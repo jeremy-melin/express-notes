@@ -1,4 +1,4 @@
-version: "1"
+version: "3.4"
 
 services:
   frontend:
@@ -8,8 +8,8 @@ services:
     volumes:
       - ./frontend:/data
     environment:
-      - API_URL=example:port
-
+      - API_URL=http://localhost:8081/
+      - NODE_ENV=development
   server:
     build: ./server
     ports:
@@ -18,3 +18,5 @@ services:
       - ./server:/data
     environment:
       - DATABASE_URL=example:port
+      - NODE_ENV=development
+
